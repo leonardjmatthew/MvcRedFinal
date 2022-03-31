@@ -55,23 +55,6 @@ namespace MvcRedFinal.Controllers
             }
         }
 
-        public ActionResult Index()
-        {
-            var userService = new UserService();
-            var users = userService.GetAllUsers();
-
-            var userList = users.Select(u =>
-            {
-
-                return new UserListItem()
-                {
-                    UserId = u.Id,
-                    UserName = u.UserName,
-                    Email = u.Email,
-                };
-            }).ToList();
-            return View(userList);
-        }
 
         //
         // GET: /Account/Login
@@ -442,6 +425,47 @@ namespace MvcRedFinal.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        public ActionResult Index()
+        {
+            var userService = new UserService();
+            var users = userService.GetAllUsers();
+
+            var userList = users.Select(u =>
+            {
+
+                return new UserListItem()
+                {
+                    UserId = u.Id,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                };
+            }).ToList();
+            return View(userList);
+        }
+        public ActionResult Details(string userId)
+        {
+            ApplicationUser User = UserManager.FindById(userId);
+            var userDetailModel = new UserDetail()
+            {
+                UserId = User.Id,
+                UserName = User.UserName,
+                Email = User.Email
+            };
+            return View(userDetailModel);
+        }
+
+        public ActionResult Edit(string UserId)
+        {
+            ApplicationUser User = UserManager.FindById(UserId);
+            var userEditModel = new UserEdit()
+            {
+                UserId = User.Id,
+                UserName = User.UserName,
+                Email = User.Email
+            };
+            return View(userEditModel);
         }
 
         #region Helpers
