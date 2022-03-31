@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MvcRedFinal.Data;
@@ -432,6 +433,15 @@ namespace MvcRedFinal.Controllers
             var userService = new UserService();
             var users = userService.GetAllUsers();
 
+           //using (var ctx = new ApplicationDbContext())
+           // {
+           //     ctx.Roles.Add(new IdentityRole()
+           //     {
+           //         Name = "admin"
+           //     });
+           //     ctx.SaveChanges();
+           // }
+
             var userList = users.Select(u =>
             {
 
@@ -459,11 +469,13 @@ namespace MvcRedFinal.Controllers
         public ActionResult Edit(string UserId)
         {
             ApplicationUser User = UserManager.FindById(UserId);
+            var UserRoles = UserManager.GetRoles(UserId);
             var userEditModel = new UserEdit()
             {
                 UserId = User.Id,
                 UserName = User.UserName,
-                Email = User.Email
+                Email = User.Email,
+                IsAdmin = UserRoles.Any(r => r == "admin")
             };
             return View(userEditModel);
         }
@@ -482,6 +494,11 @@ namespace MvcRedFinal.Controllers
 
             ApplicationUser User = UserManager.FindById(userId);
             User.UserName = model.UserName;
+
+            if(model.IsAdmin)
+            {
+                UserManager.AddToRole(userId, "admin");
+            }
 
             if (UserManager.Update(User).Succeeded)
             {
