@@ -16,7 +16,19 @@ namespace MvcRedFinal.Service
         {
             _userId = userId;
         }
+        public MovieDetail GetMovieDetailsById(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var movie = ctx.Movies.Single(m => m.Id == id);
+                return new MovieDetail
+                {
+                    MovieId = movie.Id,
+                    Description = movie.Description,
 
+                };
+            }
+        }
         public bool CreateMovie(MovieCreate model)
         {
             using (var ctx = new ApplicationDbContext())
@@ -43,6 +55,18 @@ namespace MvcRedFinal.Service
                 });
 
                 return query.ToArray();
+            }
+        }
+
+        public bool UpdateMovie(MovieEdit model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var movie = ctx.Movies.Single(m => m.Id == model.MovieId);
+                movie.Description = model.Description;
+
+
+                return ctx.SaveChanges() == 1;
             }
         }
     }

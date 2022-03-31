@@ -39,6 +39,46 @@ namespace MvcRedFinal.Controllers
             return View(model);
         }
 
+        public ActionResult Details(int id)
+        {
+            var movie = CreateMovieService().GetMovieDetailsById(id);
+            return View(movie);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var movie = CreateMovieService().GetMovieDetailsById(id);
+            return View(new MovieEdit
+            {
+                MovieId = movie.MovieId,
+                Description = movie.Description,
+
+
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, MovieEdit model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            if (model.MovieId != id)
+            {
+                ModelState.AddModelError("", "Id mismatch");
+                return View(model);
+            }
+
+            if (CreateMovieService().UpdateMovie(model))
+            {
+                TempData["SaveResult"] = "Meeting updated";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Something went wrong");
+            return View(model);
+        }
+
         private MovieService CreateMovieService()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
