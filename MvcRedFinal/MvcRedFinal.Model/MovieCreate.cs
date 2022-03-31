@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MvcRedFinal.Data
+namespace MvcRedFinal.Model
 {
-    public class Movie
+    public class MovieCreate
     {
-        [Key]
-        public int Id { get; set; }
+        [MaxLength(5000)]
         public string Description { get; set; }
     }
 }

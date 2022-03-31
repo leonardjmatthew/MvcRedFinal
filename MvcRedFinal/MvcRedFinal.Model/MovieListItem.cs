@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MvcRedFinal.Data
+namespace MvcRedFinal.Model
 {
-    public class Movie
+    public class MovieListItem
     {
-        [Key]
-        public int Id { get; set; }
+        public int MovieId { get; set; }
         public string Description { get; set; }
     }
 }
