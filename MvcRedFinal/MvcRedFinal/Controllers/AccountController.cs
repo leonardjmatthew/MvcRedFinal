@@ -468,6 +468,30 @@ namespace MvcRedFinal.Controllers
             return View(userEditModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(string userId, UserEdit model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            if (model.UserId != userId)
+            {
+                ModelState.AddModelError("", "Id Mismatch");
+                return View(model);
+            }
+
+            ApplicationUser User = UserManager.FindById(userId);
+            User.UserName = model.UserName;
+
+            if (UserManager.Update(User).Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "User couldnt be updated");
+            return View(model);
+        }
+
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
