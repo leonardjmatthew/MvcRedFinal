@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using MvcRedFinal.Data;
 using MvcRedFinal.Model;
 using MvcRedFinal.Service;
 using System;
@@ -20,6 +21,16 @@ namespace MvcRedFinal.Controllers
         public ActionResult Create()
         {
             ViewBag.Title = "New Movie";
+
+            List<Manager> managers = (new ManagerService()).GetManagers().ToList();
+            var query = from m in managers
+                        select new SelectListItem()
+                        {
+                            Value = m.Id.ToString(),
+                            Text = m.Name,
+                        };
+            ViewBag.ManagerId = query.ToList();
+
             return View();
         }
 
@@ -48,10 +59,20 @@ namespace MvcRedFinal.Controllers
         public ActionResult Edit(int id)
         {
             var movie = CreateMovieService().GetMovieDetailsById(id);
+
+            List<Manager> Managers = (new ManagerService()).GetManagers().ToList();
+            ViewBag.ManagerId = Managers.Select(m => new SelectListItem()
+            {
+                Value = m.Id.ToString(),
+                Text = m.Name,
+                Selected = movie.ManagerId == m.Id
+            });
+
             return View(new MovieEdit
             {
                 MovieId = movie.MovieId,
                 Description = movie.Description,
+                ManagerId = movie.ManagerId,
 
 
             });

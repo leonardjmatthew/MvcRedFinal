@@ -49,6 +49,14 @@ namespace MvcRedFinal.Service
             }
         }
 
+        public IEnumerable<Manager> GetManagers()
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                return ctx.Managers.ToList();
+            }
+        }
+
         public bool UpdateManager(ManagerEdit model)
         {
             using (var ctx = new ApplicationDbContext())

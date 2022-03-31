@@ -25,6 +25,7 @@ namespace MvcRedFinal.Service
                 {
                     MovieId = movie.Id,
                     Description = movie.Description,
+                    ManagerId = movie.ManagerId,
 
                 };
             }
@@ -36,7 +37,7 @@ namespace MvcRedFinal.Service
                 var newMovie = new Movie()
                 {
                     Description = model.Description,
-
+                    ManagerId = model.ManagerId,
                 };
 
                 ctx.Movies.Add(newMovie);
@@ -52,6 +53,7 @@ namespace MvcRedFinal.Service
                 {
                     MovieId = m.Id,
                     Description = m.Description,
+                    ManagerId = m.ManagerId,
                 });
 
                 return query.ToArray();
@@ -64,6 +66,7 @@ namespace MvcRedFinal.Service
             {
                 var movie = ctx.Movies.Single(m => m.Id == model.MovieId);
                 movie.Description = model.Description;
+                movie.ManagerId = model.ManagerId;
 
 
                 return ctx.SaveChanges() == 1;
