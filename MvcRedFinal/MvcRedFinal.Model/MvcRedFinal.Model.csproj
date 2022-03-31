@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ManagerCreate.cs" />
+    <Compile Include="ManagerDetail.cs" />
+    <Compile Include="ManagerEdit.cs" />
+    <Compile Include="ManagerListItem.cs" />
     <Compile Include="MoveEdit.cs" />
     <Compile Include="MovieCreate.cs" />
     <Compile Include="MovieDetail.cs" />

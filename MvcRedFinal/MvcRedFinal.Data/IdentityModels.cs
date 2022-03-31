@@ -33,7 +33,7 @@ namespace MvcRedFinal.Data
         }
 
         public DbSet<Movie> Movies { get; set; }
-       
+        public DbSet<Manager> Managers { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
