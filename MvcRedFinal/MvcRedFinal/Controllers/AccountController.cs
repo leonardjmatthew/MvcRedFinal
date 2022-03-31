@@ -484,6 +484,18 @@ namespace MvcRedFinal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(string userId, UserEdit model)
         {
+            var currentUserId = User.Identity.GetUserId();
+            var currentRoles = UserManager.GetRoles(currentUserId);
+
+            var UserRoles = UserManager.GetRoles(userId);
+            bool UserIsAdmin = UserRoles.Any(r => r == "admin");
+
+            if (!currentRoles.Contains("admin"))
+            {
+                ModelState.AddModelError("", "You dont have permission to do this");
+                return View(model);
+            }
+
             if (!ModelState.IsValid) return View(model);
 
             if (model.UserId != userId)
@@ -492,15 +504,25 @@ namespace MvcRedFinal.Controllers
                 return View(model);
             }
 
-            ApplicationUser User = UserManager.FindById(userId);
-            User.UserName = model.UserName;
+            ApplicationUser user = UserManager.FindById(userId);
+            user.UserName = model.UserName;
 
             if(model.IsAdmin)
             {
                 UserManager.AddToRole(userId, "admin");
             }
 
-            if (UserManager.Update(User).Succeeded)
+            if(UserIsAdmin && !model.IsAdmin)
+            {
+                if(userId == currentUserId)
+                {
+                    ModelState.AddModelError("", "you cant remove yourself as admin");
+                        return View(model);
+                }
+                UserManager.RemoveFromRole(userId, "admin");
+            }
+
+            if (UserManager.Update(user).Succeeded)
             {
                 return RedirectToAction("Index");
             }

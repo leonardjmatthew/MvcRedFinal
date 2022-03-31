@@ -8,29 +8,29 @@ using System.Web.Mvc;
 
 namespace MvcRedFinal.Controllers
 {
-    public class ManagerController : Controller
+    public class TheaterController : Controller
     {
-        // GET: Manager
+        // GET: Theater
         public ActionResult Index()
         {
-            return View(new ManagerService().GetManagerList());
+            return View(new TheaterService().GetTheaterList());
         }
 
         public ActionResult Create()
         {
-            ViewBag.Title = "New Manager";
+            ViewBag.Title = "New Theater";
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ManagerCreate model)
+        public ActionResult Create(TheaterCreate model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            if (new ManagerService().CreateManager(model))
+            if (new TheaterService().CreateTheater(model))
             {
-                TempData["SaveResult"] = "Manager established";
+                TempData["SaveResult"] = "Theater established";
                 return RedirectToAction("Index");
             }
 
@@ -40,17 +40,17 @@ namespace MvcRedFinal.Controllers
 
         public ActionResult Details(int id)
         {
-            var manager = new ManagerService().GetManagerDetailsById(id);
-            return View(manager);
+            var theater = new TheaterService().GetTheaterDetailsById(id);
+            return View(theater);
         }
 
         public ActionResult Edit(int id)
         {
-            var manager = new ManagerService().GetManagerDetailsById(id);
-            return View(new ManagerEdit
+            var theater = new TheaterService().GetTheaterDetailsById(id);
+            return View(new TheaterEdit
             {
-                ManagerId = manager.ManagerId,
-                Name = manager.Name,
+                TheaterId = theater.TheaterId,
+                Name = theater.Name,
 
 
             });
@@ -58,26 +58,25 @@ namespace MvcRedFinal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, ManagerEdit model)
+        public ActionResult Edit(int id, TheaterEdit model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            if (model.ManagerId != id)
+            if (model.TheaterId != id)
             {
                 ModelState.AddModelError("", "Id mismatch");
                 return View(model);
             }
 
-            if (new ManagerService().UpdateManager(model))
+            if (new TheaterService().UpdateTheater(model))
             {
-                TempData["SaveResult"] = "Manager updated";
+                TempData["SaveResult"] = "Theater updated";
                 return RedirectToAction("Index");
             }
 
             ModelState.AddModelError("", "Something went wrong");
             return View(model);
         }
-
 
     }
 }

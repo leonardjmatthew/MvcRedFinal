@@ -32,7 +32,11 @@ namespace MvcRedFinal.Controllers
             ViewBag.ManagerId = query.ToList();
 
             return View();
+
+            
         }
+
+       
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -73,6 +77,7 @@ namespace MvcRedFinal.Controllers
                 MovieId = movie.MovieId,
                 Description = movie.Description,
                 ManagerId = movie.ManagerId,
+                TheaterId = movie.TheaterId
 
 
             });

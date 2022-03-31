@@ -60,6 +60,7 @@
     <Compile Include="ManagerService.cs" />
     <Compile Include="MovieService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TheaterService.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>

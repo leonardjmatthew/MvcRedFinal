@@ -12,5 +12,6 @@ namespace MvcRedFinal.Model
         [MaxLength(5000)]
         public string Description { get; set; }
         public int ManagerId { get; set; }
+        public int TheaterId { get; set; }
     }
 }

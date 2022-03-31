@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace MvcRedFinal.Model
 {
-    public class MovieEdit
+    public class TheaterEdit
     {
-        public int MovieId { get; set; }
-        public string Description { get; set; }
-        public int ManagerId { get; set; }
         public int TheaterId { get; set; }
+        public string Name { get; set; }
     }
 }
