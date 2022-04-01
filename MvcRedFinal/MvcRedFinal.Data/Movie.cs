@@ -17,7 +17,6 @@ namespace MvcRedFinal.Data
         [ForeignKey("ManagerId")]
         public virtual Manager Manager { get; set; }
 
-        
         public int TheaterId { get; set; }
         
     }

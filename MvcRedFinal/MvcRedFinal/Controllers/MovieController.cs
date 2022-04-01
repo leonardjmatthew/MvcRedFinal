@@ -31,9 +31,19 @@ namespace MvcRedFinal.Controllers
                         };
             ViewBag.ManagerId = query.ToList();
 
+            
+            List<Theater> theaters = (new TheaterService()).GetTheaters().ToList();
+            var theater = from t in theaters
+                        select new SelectListItem()
+                        {
+                            Value = t.Id.ToString(),
+                            Text = t.Name,
+                        };
+            ViewBag.ManagerId = query.ToList();
+
             return View();
 
-            
+
         }
 
        
@@ -70,6 +80,14 @@ namespace MvcRedFinal.Controllers
                 Value = m.Id.ToString(),
                 Text = m.Name,
                 Selected = movie.ManagerId == m.Id
+            });
+
+            List<Theater> theaters = (new TheaterService()).GetTheaters().ToList();
+            ViewBag.TheaterId = theaters.Select(t => new SelectListItem()
+            {
+                Value = t.Id.ToString(),
+                Text = t.Name,
+                Selected = movie.TheaterId == t.Id
             });
 
             return View(new MovieEdit
